@@ -2,3 +2,9 @@
     border: 2px solid black;
     padding: 0.5em;
 }
+
+td {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+}
