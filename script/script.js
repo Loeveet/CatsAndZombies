@@ -3,6 +3,35 @@ let colmove = 2
 drawtable()
 createbuttons()
 
+const url = "https://api.chucknorris.io/jokes/random/"
+const theJoke = document.getElementById("joke")
+
+fetch(url)
+    .then(function (response) { return response.json() })
+    .then(function (data) {
+
+        console.log(data)
+
+        let card = document.createElement("div")
+        card.setAttribute("class", "card")
+
+        let value = document.createElement("h3")
+        value.setAttribute("class", "value")
+        value.innerHTML = data.value
+
+        // Bilden verkar inte finnas
+        // let img = document.createElement("img")
+        // img.setAttribute("alt", "Image not found")
+        // img.src = data.icon_url
+
+        // card.appendChild(img)
+        
+        card.appendChild(value)
+        theJoke.appendChild(card)
+
+
+    })
+
 function drawtable() {
 
     let field = document.getElementById("field")
@@ -83,5 +112,4 @@ document.getElementById("buttonup").addEventListener("click", function () { myFu
 document.getElementById("buttondown").addEventListener("click", function () { myFunction(2); });
 document.getElementById("buttonleft").addEventListener("click", function () { myFunction(3); });
 document.getElementById("buttonright").addEventListener("click", function () { myFunction(4); });
-
 
