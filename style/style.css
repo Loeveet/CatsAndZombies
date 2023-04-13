@@ -25,7 +25,7 @@ input {
 .button-container {
     width: 205px;
 }
-.buttonsrow1 {
+.buttonsrow1, .buttonsrow3 {
     display: flex;
     justify-content: center;
 }
@@ -41,10 +41,21 @@ input {
     display: flex;
     justify-content: space-between;
 }
-.buttonsrow3 {
+
+.flexboxtest{
+    display: flex;
+    flex-wrap: wrap;
+    width: 20vw;
+}
+.square {
+    /* flex-basis: 10%; */
+    height: 50px;
+    border: 1px solid black;
+}
+/* .buttonsrow3 {
     display: flex;
     justify-content: center;
-}
+} */
 img {
     position: relative;
     width: 400px;
