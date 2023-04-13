@@ -1,3 +1,9 @@
+/* body {
+    width: 50vw;
+    border: 1px solid black;
+    margin: auto;
+} */
+
 .field td{
     border: 2px solid black;
     padding: 0.5em;
@@ -8,3 +14,57 @@ td {
     height: 20px;
     text-align: center;
 }
+
+input {
+    background-color: white;
+    color: black;
+    margin: 2px;
+    border: 3px solid black;
+    border-radius: 25px;
+}
+.button-container {
+    width: 205px;
+}
+.buttonsrow1 {
+    display: flex;
+    justify-content: center;
+}
+.button {
+    min-width: 75px;
+}
+.button:hover {
+    background-color: gray;
+    opacity: 0.9;
+    cursor: pointer;
+}
+.buttonsrow2 {
+    display: flex;
+    justify-content: space-between;
+}
+.buttonsrow3 {
+    display: flex;
+    justify-content: center;
+}
+img {
+    position: relative;
+    width: 400px;
+    height: 300px;
+}
+
+.catimage {
+    position: absolute;
+    width: 100px;
+    height: auto;
+    left: 150px;
+    top: 250px;
+}
+.zombieimage {
+    position: absolute;
+    width: 400px;
+    height: auto;
+    left: 5px;
+    top: 166px;
+}
+/* * {
+    border: 1px solid black;
+} */
