@@ -1,15 +1,20 @@
-let size = 5 //Skapa slider för att kunna ändra här, bygga css samt se till att eventen händer vid rätt ruta, samt fixa börjaom-knappen
+let fieldsize = localStorage.getItem("fieldsize"); //bygga css. främst placering och kanske lite färg
+if (fieldsize === null) {
+    fieldsize = 5
+}
 let posX = 2
 let posY = 2
-let catX = rndInt(0, size)
-let catY = rndInt(0, size)
-let zomX = rndInt(0, size)
-let zomY = rndInt(0, size)
+let catX = rndInt(0, fieldsize)
+let catY = rndInt(0, fieldsize)
+let zomX = rndInt(0, fieldsize)
+let zomY = rndInt(0, fieldsize)
 let catcount = 0
 
 let foundcat = false
 let dead = false
 
+const url = "https://api.chucknorris.io/jokes/random/"
+const theJoke = document.getElementById("joke")
 
 let images = [
     { image: "images/cabinbylake.jpg", value: "Från stugan kan man dyka ner i sjön" },
@@ -26,32 +31,29 @@ let images = [
     { image: "images/waterfallandmountain.jpg", value: "Waterfall and mountain" },
     { image: "images/wave.jpg", value: "En våg perfekt att surfa på" }];
 
-const url = "https://api.chucknorris.io/jokes/random/"
-const theJoke = document.getElementById("joke")
 
 printScore()
 showimage()
-// drawtable()
 showbuttons()
 
 fetch(url)
-.then(function (response) { return response.json() })
-.then(function (data) {
-    
-    console.log(data)
-    
-    let card = document.createElement("div")
-    card.setAttribute("class", "card")
-    
-    let value = document.createElement("h3")
-    value.setAttribute("class", "value")
-    value.innerHTML = data.value
-    
-    card.appendChild(value)
-    theJoke.appendChild(card)
-    
-    
-})
+    .then(function (response) { return response.json() })
+    .then(function (data) {
+
+        console.log(data)
+
+        let card = document.createElement("div")
+        card.setAttribute("class", "card")
+
+        let value = document.createElement("h3")
+        value.setAttribute("class", "value")
+        value.innerHTML = data.value
+
+        card.appendChild(value)
+        theJoke.appendChild(card)
+
+
+    })
 
 drawtableflex()
 printRange()
@@ -72,7 +74,7 @@ function drawtableflex() {
     flexboxfield.innerHTML = ""
 
 
-    for (let i = 0; i < (size * size); i++) { //Göra slider för värdet här
+    for (let i = 0; i < (fieldsize * fieldsize); i++) { //Göra slider för värdet här
         var square = document.createElement("div");
         square.setAttribute("class", "square")
         flexboxfield.appendChild(square)
@@ -82,18 +84,14 @@ function drawtableflex() {
 
     for (var i = 0; i < squares.length; i++) {
         var square = squares[i]
-        square.style.flexBasis = (100 / size - 1) + "%"
+        square.style.flexBasis = (100 / fieldsize - 1) + "%"
 
-        var x = i % size;
-        var y = Math.floor(i / size);
+        var x = i % fieldsize;
+        var y = Math.floor(i / fieldsize);
 
         if (x === posX && y === posY) {
             square.innerHTML = "X"
         }
-
-        // if (x === zomX && y === zomY) {
-        //     square.innerHTML = "Z"
-        // }
 
         else if (x == catX && y == catY) {
             square.innerHTML = "C"
@@ -108,12 +106,13 @@ function drawtableflex() {
 
 }
 
-function changesize(max){
-    size = max
+function changesize(max) {
+    fieldsize = max
+    localStorage.setItem("fieldsize", max)
     drawtableflex()
 }
 
-function printRange(){
+function printRange() {
 
     let rangeDiv = document.getElementById("range")
     rangeDiv.innerHTML = ""
@@ -127,7 +126,7 @@ function printRange(){
     fieldrange.setAttribute("type", "range")
     fieldrange.setAttribute("min", "4")
     fieldrange.setAttribute("max", "8")
-    fieldrange.setAttribute("value", size)
+    fieldrange.setAttribute("value", fieldsize)
     fieldrange.setAttribute("oninput", "changesize(this.value)")
     fieldrange.setAttribute("class", "fieldrange")
 
@@ -162,8 +161,7 @@ function tryagainbutton() {
     buttons.innerHTML = ""
 
     let row1 = document.createElement("div")
-    let row2 = document.createElement("div")
-    let row3 = document.createElement("div")
+    row1.setAttribute("class", "buttonsrow1")
 
     let revivebutton = document.createElement("input")
     revivebutton.setAttribute("type", "button")
@@ -172,10 +170,8 @@ function tryagainbutton() {
     revivebutton.setAttribute("class", "revivebutton")
     revivebutton.setAttribute("onclick", "location.reload()")
 
-
-    row2.appendChild(revivebutton)
-
-    buttons.appendChild(row2)
+    row1.appendChild(revivebutton)
+    buttons.appendChild(row1)
 
 }
 function createbuttons() {
@@ -233,13 +229,15 @@ function changePosition(value) {
             if (posX != 0) {
                 posX--
                 movezombie()
+                drawtableflex()
                 showimage()
             }
             break;
         case 2:
-            if (posX != size - 1) {
+            if (posX != fieldsize - 1) {
                 posX++
                 movezombie()
+                drawtableflex()
                 showimage()
             }
             break;
@@ -247,19 +245,19 @@ function changePosition(value) {
             if (posY != 0) {
                 posY--
                 movezombie()
+                drawtableflex()
                 showimage()
             }
             break;
         case 4:
-            if (posY != size - 1) {
+            if (posY != fieldsize - 1) {
                 posY++
                 movezombie()
+                drawtableflex()
                 showimage()
             }
             break;
     }
-    // drawtable()
-    drawtableflex()
 
 }
 
@@ -317,18 +315,12 @@ function showimage() {
         catX = rndInt(0, 5)
         catY = rndInt(0, 5)
         foundcat = false
-        // drawtable()
         drawtableflex()
     }
     else if (dead == true) {
         image.appendChild(zombieimage)
         printDead()
         showbuttons()
-        zomX = rndInt(0, 5)
-        zomY = rndInt(0, 5)
-        dead = false
-        // drawtable()
-        drawtableflex()
     }
     image.appendChild(bigimagetext)
 
@@ -338,52 +330,3 @@ function rndInt(min, max) {
     return Math.floor(Math.random() * (max - min) + min);
 }
 
-function drawtable() {
-
-    console.log("Spelare: " + posX + " " + posY)
-    console.log("Kissekatten: " + catX + " " + catY)
-    console.log("Zombie: " + zomX + " " + zomY)
-    console.log("Counter: " + catcount)
-
-
-    let field = document.getElementById("field")
-    field.innerHTML = ""
-    let matrix = [
-        [1, 2, 3, 4, 5],
-        [6, 7, 8, 9, 10],
-        [11, 12, 13, 14, 15],
-        [16, 17, 18, 19, 20],
-        [21, 22, 23, 24, 25]
-    ];
-
-    let table = document.createElement("table");
-
-    for (let i = 0; i < matrix.length; i++) {
-
-        let row = table.insertRow();
-
-        for (let j = 0; j < matrix[i].length; j++) {
-
-            let cell = row.insertCell()
-
-            if (i == posX && j == posY) {
-                cell.innerHTML = "X"
-            }
-            else if (i == catX && j == catY) {
-                cell.innerHTML = "C"
-            }
-            else if (i == zomX && j == zomY) {
-                cell.innerHTML = "Z"
-            }
-            else {
-                cell.innerHTML = " "
-            }
-
-            posX == zomX && posY == zomY ? dead = true : dead = false
-            posX == catX && posY == catY ? foundcat = true : foundcat = false
-
-        }
-    }
-
-    field.appendChild(table)
-}
