@@ -42,7 +42,7 @@ input {
     justify-content: space-between;
 }
 
-.flexboxtest{
+.flexboxfield{
     display: flex;
     flex-wrap: wrap;
     width: 20vw;

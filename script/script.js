@@ -1,4 +1,4 @@
-let size = 7 //Skapa slider för att kunna ändra här, bygga css samt se till att eventen händer vid rätt ruta
+let size = 5 //Skapa slider för att kunna ändra här, bygga css samt se till att eventen händer vid rätt ruta, samt fixa börjaom-knappen
 let posX = 2
 let posY = 2
 let catX = rndInt(0, size)
@@ -35,25 +35,26 @@ showimage()
 showbuttons()
 
 fetch(url)
-    .then(function (response) { return response.json() })
-    .then(function (data) {
-
-        console.log(data)
-
-        let card = document.createElement("div")
-        card.setAttribute("class", "card")
-
-        let value = document.createElement("h3")
-        value.setAttribute("class", "value")
-        value.innerHTML = data.value
-
-        card.appendChild(value)
-        theJoke.appendChild(card)
-
-
-    })
+.then(function (response) { return response.json() })
+.then(function (data) {
+    
+    console.log(data)
+    
+    let card = document.createElement("div")
+    card.setAttribute("class", "card")
+    
+    let value = document.createElement("h3")
+    value.setAttribute("class", "value")
+    value.innerHTML = data.value
+    
+    card.appendChild(value)
+    theJoke.appendChild(card)
+    
+    
+})
 
 drawtableflex()
+printRange()
 
 document.getElementById("buttonleft").addEventListener("click", function () { changePosition(1); });
 document.getElementById("buttonright").addEventListener("click", function () { changePosition(2); });
@@ -67,13 +68,14 @@ function drawtableflex() {
     console.log("Zombie: " + zomX + " " + zomY)
     console.log("Counter: " + catcount)
 
-    let flexboxtest = document.getElementById("flexboxtest")
-    flexboxtest.innerHTML = ""
+    let flexboxfield = document.getElementById("flexboxfield")
+    flexboxfield.innerHTML = ""
 
-    for (let i = 0; i < (size*size); i++) { //Göra slider för värdet här
+
+    for (let i = 0; i < (size * size); i++) { //Göra slider för värdet här
         var square = document.createElement("div");
         square.setAttribute("class", "square")
-        flexboxtest.appendChild(square)
+        flexboxfield.appendChild(square)
     }
 
     var squares = document.querySelectorAll('.square');
@@ -104,6 +106,34 @@ function drawtableflex() {
         posX == catX && posY == catY ? foundcat = true : foundcat = false
     }
 
+}
+
+function changesize(max){
+    size = max
+    drawtableflex()
+}
+
+function printRange(){
+
+    let rangeDiv = document.getElementById("range")
+    rangeDiv.innerHTML = ""
+
+        // <label>Total numbers: </label><input type="range" min="1" max="200" value="10" oninput="changeop1(this.value)">
+    let rangetext = document.createElement("label")
+    rangetext.innerHTML = "Justera banstorlek "
+    rangetext.setAttribute("class", "rangetext")
+
+
+    let fieldrange = document.createElement("input")
+    fieldrange.setAttribute("type", "range")
+    fieldrange.setAttribute("min", "4")
+    fieldrange.setAttribute("max", "8")
+    fieldrange.setAttribute("value", size)
+    fieldrange.setAttribute("oninput", "changesize(this.value)")
+    fieldrange.setAttribute("class", "fieldrange")
+
+    rangeDiv.appendChild(rangetext)
+    rangeDiv.appendChild(fieldrange)
 }
 
 function printScore() {
