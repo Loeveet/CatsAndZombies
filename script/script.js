@@ -118,7 +118,6 @@ function printRange(){
     let rangeDiv = document.getElementById("range")
     rangeDiv.innerHTML = ""
 
-        // <label>Total numbers: </label><input type="range" min="1" max="200" value="10" oninput="changeop1(this.value)">
     let rangetext = document.createElement("label")
     rangetext.innerHTML = "Justera banstorlek "
     rangetext.setAttribute("class", "rangetext")
