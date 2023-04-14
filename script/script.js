@@ -1,4 +1,4 @@
-let fieldsize = localStorage.getItem("fieldsize"); //bygga css. främst placering och kanske lite färg
+let fieldsize = localStorage.getItem("fieldsize"); //bygga css. kanske hitta någon bakgrundsbild eller kanske någon ram
 if (fieldsize === null) {
     fieldsize = 5
 }
@@ -16,6 +16,7 @@ let dead = false
 const url = "https://api.chucknorris.io/jokes/random/"
 const theJoke = document.getElementById("joke")
 
+    //Använder inte bildtext för tillfället. Tyckte inte att det fyllde någon funktion. Men de finns om man vill lägga till
 let images = [
     { image: "images/cabinbylake.jpg", value: "Från stugan kan man dyka ner i sjön" },
     { image: "images/reef.jpg", value: "Fiskarna har möte vid revet" },
@@ -47,6 +48,7 @@ fetch(url)
 
         let value = document.createElement("h3")
         value.setAttribute("class", "value")
+        value.setAttribute("id", "value")
         value.innerHTML = data.value
 
         card.appendChild(value)
@@ -93,9 +95,10 @@ function drawtableflex() {
             square.innerHTML = "X"
         }
 
-        else if (x == catX && y == catY) {
-            square.innerHTML = "C"
-        }
+        // Hann inte med, skapa knappar för att visa/inte visa var katt och zombie är
+        // else if (x == catX && y == catY) {
+        //     square.innerHTML = "C"
+        // }
         else if (x == zomX && y == zomY) {
             square.innerHTML = "Z"
         }
@@ -156,6 +159,7 @@ function showbuttons() {
     if (!dead) createbuttons()
     else tryagainbutton()
 }
+
 function tryagainbutton() {
     let buttons = document.getElementById("button-container")
     buttons.innerHTML = ""
@@ -262,7 +266,7 @@ function changePosition(value) {
 }
 
 function movezombie() {
-    let randommove = rndInt(0, 3)
+    let randommove = rndInt(0, 2) //Här kan man skapa en range för hur stor chans det är för zombien att röra sig
     if (randommove === 0) {
 
         if (Math.abs(zomX - posX) > Math.abs(zomY - posY)) {
@@ -308,21 +312,21 @@ function showimage() {
     zombieimage.setAttribute("class", "zombieimage")
 
     image.appendChild(bigimage)
-    if (foundcat == true) {
-        catcount++
-        printScore()
-        image.appendChild(catimage)
-        catX = rndInt(0, 5)
-        catY = rndInt(0, 5)
-        foundcat = false
-        drawtableflex()
-    }
-    else if (dead == true) {
+    if (dead == true) {
         image.appendChild(zombieimage)
         printDead()
         showbuttons()
     }
-    image.appendChild(bigimagetext)
+    else if (foundcat == true) {
+        catcount++
+        printScore()
+        image.appendChild(catimage)
+        catX = rndInt(0, fieldsize)
+        catY = rndInt(0, fieldsize)
+        foundcat = false
+        drawtableflex()
+    }
+    // image.appendChild(bigimagetext)
 
 }
 
