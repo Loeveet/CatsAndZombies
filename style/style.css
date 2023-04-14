@@ -3,7 +3,6 @@ body {
 }
 .container {
     display: flex;
-    width: 75vw;
     text-align: center;
     margin: auto;
 }
@@ -78,6 +77,10 @@ input {
     width: 400px;
     height: 300px;
 }
+.joke {
+    width: 400px;
+    height: auto;
+}
 
 .bigimage {
     position: absolute;
@@ -125,4 +128,11 @@ input {
     flex-direction: column;
     justify-content: space-between;
     
+}
+
+.footer {
+    margin-top: 40px;
+    font-size: 50px;
+    text-align: center;
+    font-weight: bold;
 }
