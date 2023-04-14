@@ -13,10 +13,13 @@ let catcount = 0
 let foundcat = false
 let dead = false
 
+let showCat = true
+let showZombie = true
+
 const url = "https://api.chucknorris.io/jokes/random/"
 const theJoke = document.getElementById("joke")
 
-    //Använder inte bildtext för tillfället. Tyckte inte att det fyllde någon funktion. Men de finns om man vill lägga till
+//Använder inte bildtext för tillfället. Tyckte inte att det fyllde någon funktion. Men de finns om man vill lägga till
 let images = [
     { image: "images/cabinbylake.jpg", value: "Från stugan kan man dyka ner i sjön" },
     { image: "images/reef.jpg", value: "Fiskarna har möte vid revet" },
@@ -95,12 +98,17 @@ function drawtableflex() {
             square.innerHTML = "X"
         }
 
-        // Hann inte med, skapa knappar för att visa/inte visa var katt och zombie är
-        // else if (x == catX && y == catY) {
-        //     square.innerHTML = "C"
-        // }
+        else if (x == catX && y == catY) {
+            if (showCat) {
+                square.innerHTML = "C"
+
+            }
+        }
         else if (x == zomX && y == zomY) {
-            square.innerHTML = "Z"
+            if (showZombie) {
+                square.innerHTML = "Z"
+
+            }
         }
 
         posX == zomX && posY == zomY ? dead = true : dead = false
@@ -117,8 +125,8 @@ function changesize(max) {
 
 function printRange() {
 
-    let rangeDiv = document.getElementById("range")
-    rangeDiv.innerHTML = ""
+    let optionDiv = document.getElementById("option")
+    optionDiv.innerHTML = ""
 
     let rangetext = document.createElement("label")
     rangetext.innerHTML = "Justera banstorlek "
@@ -133,8 +141,42 @@ function printRange() {
     fieldrange.setAttribute("oninput", "changesize(this.value)")
     fieldrange.setAttribute("class", "fieldrange")
 
-    rangeDiv.appendChild(rangetext)
-    rangeDiv.appendChild(fieldrange)
+    let toggleCatLabel = document.createElement("label")
+    toggleCatLabel.innerText = "Visa Katt: På"
+    toggleCatLabel.setAttribute("for", "togglecat")
+
+    let toggleCatInput = document.createElement("input")
+    toggleCatInput.setAttribute("type", "checkbox")
+    toggleCatInput.setAttribute("id", "togglecat")
+    toggleCatInput.setAttribute("checked", true)
+    toggleCatInput.checked = true
+    toggleCatInput.addEventListener("change", () => {
+        showCat = toggleCatInput.checked
+        toggleCatLabel.innerText = "Visa Katt: " + (showCat ? "På" : "Av")
+        drawtableflex()
+    })
+
+    let toggleZombieLabel = document.createElement("label")
+    toggleZombieLabel.innerText = "Visa Zombie: På"
+    toggleZombieLabel.setAttribute("for", "togglezombie")
+
+    let toggleZombieInput = document.createElement("input")
+    toggleZombieInput.setAttribute("type", "checkbox")
+    toggleZombieInput.setAttribute("id", "togglezombie")
+    toggleZombieInput.setAttribute("checked", true)
+    toggleZombieInput.checked = true
+    toggleZombieInput.addEventListener("change", () => {
+        showZombie = toggleZombieInput.checked
+        toggleZombieLabel.innerText = "Visa Zombie: " + (showZombie ? "På" : "Av")
+        drawtableflex()
+    })
+
+    optionDiv.appendChild(toggleZombieLabel)
+    optionDiv.appendChild(toggleZombieInput)
+    optionDiv.appendChild(toggleCatLabel)
+    optionDiv.appendChild(toggleCatInput)
+    optionDiv.appendChild(rangetext)
+    optionDiv.appendChild(fieldrange)
 }
 
 function printScore() {

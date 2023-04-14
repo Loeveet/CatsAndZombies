@@ -106,9 +106,15 @@ input {
     top: 166px;
 }
 
-.score,
-.range {
+.score {
     display: flex;
+    justify-content: center;
+    width: 20vw;
+}
+
+.option {
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     width: 20vw;
 }
