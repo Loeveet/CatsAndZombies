@@ -72,14 +72,22 @@ input {
     font-size: 1.5em;
 }
 
+.square img {
+    display: none;
+}
+
 .image {
     position: relative;
     width: 400px;
     height: 300px;
 }
+
 .joke {
     width: 400px;
     height: auto;
+}
+.joke p {
+    font-size: 20px;
 }
 
 .bigimage {

@@ -1,4 +1,4 @@
-let fieldsize = localStorage.getItem("fieldsize"); //bygga css. kanske hitta någon bakgrundsbild eller kanske någon ram
+let fieldsize = localStorage.getItem("fieldsize")
 if (fieldsize === null) {
     fieldsize = 5
 }
@@ -9,6 +9,10 @@ let catY = rndInt(0, fieldsize)
 let zomX = rndInt(0, fieldsize)
 let zomY = rndInt(0, fieldsize)
 let catcount = 0
+let zombielevel = localStorage.getItem("zombielevel")
+if (zombielevel === null) {
+    zombielevel = 2
+}
 
 let foundcat = false
 let dead = false
@@ -33,7 +37,7 @@ let images = [
     { image: "images/valley.jpg", value: "Valley" },
     { image: "images/waterfall.jpg", value: "Waterfall" },
     { image: "images/waterfallandmountain.jpg", value: "Waterfall and mountain" },
-    { image: "images/wave.jpg", value: "En våg perfekt att surfa på" }];
+    { image: "images/wave.jpg", value: "En våg perfekt att surfa på" }]
 
 
 printScore()
@@ -49,9 +53,9 @@ fetch(url)
         let card = document.createElement("div")
         card.setAttribute("class", "card")
 
-        let value = document.createElement("h3")
-        value.setAttribute("class", "value")
-        value.setAttribute("id", "value")
+        let value = document.createElement("p")
+        value.setAttribute("class", "joke")
+        value.setAttribute("id", "joke")
         value.innerHTML = data.value
 
         card.appendChild(value)
@@ -63,10 +67,10 @@ fetch(url)
 drawtableflex()
 printRange()
 
-document.getElementById("buttonleft").addEventListener("click", function () { changePosition(1); });
-document.getElementById("buttonright").addEventListener("click", function () { changePosition(2); });
-document.getElementById("buttonup").addEventListener("click", function () { changePosition(3); });
-document.getElementById("buttondown").addEventListener("click", function () { changePosition(4); });
+document.getElementById("buttonleft").addEventListener("click", function () { changePosition(1) })
+document.getElementById("buttonright").addEventListener("click", function () { changePosition(2) })
+document.getElementById("buttonup").addEventListener("click", function () { changePosition(3) })
+document.getElementById("buttondown").addEventListener("click", function () { changePosition(4) })
 
 
 function drawtableflex() {
@@ -74,26 +78,27 @@ function drawtableflex() {
     console.log("Kissekatten: " + catX + " " + catY)
     console.log("Zombie: " + zomX + " " + zomY)
     console.log("Counter: " + catcount)
-
+    console.log("Zombielevel: " + zombielevel)
+    
     let flexboxfield = document.getElementById("flexboxfield")
     flexboxfield.innerHTML = ""
-
-
-    for (let i = 0; i < (fieldsize * fieldsize); i++) { //Göra slider för värdet här
-        var square = document.createElement("div");
+    
+    
+    for (let i = 0; i < (fieldsize * fieldsize); i++) { 
+        let square = document.createElement("div")
         square.setAttribute("class", "square")
         flexboxfield.appendChild(square)
     }
-
-    var squares = document.querySelectorAll('.square');
-
-    for (var i = 0; i < squares.length; i++) {
-        var square = squares[i]
+    
+    let squares = document.querySelectorAll(".square")
+    
+    for (let i = 0; i < squares.length; i++) {
+        let square = squares[i]
         square.style.flexBasis = (100 / fieldsize - 1) + "%"
-
-        var x = i % fieldsize;
-        var y = Math.floor(i / fieldsize);
-
+        
+        let x = i % fieldsize;
+        let y = Math.floor(i / fieldsize)
+        
         if (x === posX && y === posY) {
             square.innerHTML = "X"
         }
@@ -117,9 +122,15 @@ function drawtableflex() {
 
 }
 
-function changesize(max) {
-    fieldsize = max
-    localStorage.setItem("fieldsize", max)
+function changesize(size) {
+    fieldsize = size
+    localStorage.setItem("fieldsize", size)
+    drawtableflex()
+}
+
+function changelevel(level) {
+    zombielevel = (4 - level)
+    localStorage.setItem("zombielevel", 4 - level)
     drawtableflex()
 }
 
@@ -140,6 +151,19 @@ function printRange() {
     fieldrange.setAttribute("value", fieldsize)
     fieldrange.setAttribute("oninput", "changesize(this.value)")
     fieldrange.setAttribute("class", "fieldrange")
+
+    let zombielevellabel = document.createElement("label")
+    zombielevellabel.innerHTML = "Lätt - Ändra svårighetsgrad - Svårt"
+    zombielevellabel.setAttribute("class", "zombielevellabel")
+
+
+    let zombielevelinput = document.createElement("input")
+    zombielevelinput.setAttribute("type", "range")
+    zombielevelinput.setAttribute("min", "0")
+    zombielevelinput.setAttribute("max", "4")
+    zombielevelinput.setAttribute("value", 4 - zombielevel)
+    zombielevelinput.setAttribute("oninput", "changelevel(this.value)")
+    zombielevelinput.setAttribute("class", "zombielevelinput")
 
     let toggleCatLabel = document.createElement("label")
     toggleCatLabel.innerText = "Visa Katt: På"
@@ -171,6 +195,8 @@ function printRange() {
         drawtableflex()
     })
 
+    optionDiv.appendChild(zombielevellabel)
+    optionDiv.appendChild(zombielevelinput)
     optionDiv.appendChild(toggleZombieLabel)
     optionDiv.appendChild(toggleZombieInput)
     optionDiv.appendChild(toggleCatLabel)
@@ -278,7 +304,7 @@ function changePosition(value) {
                 drawtableflex()
                 showimage()
             }
-            break;
+            break
         case 2:
             if (posX != fieldsize - 1) {
                 posX++
@@ -286,7 +312,7 @@ function changePosition(value) {
                 drawtableflex()
                 showimage()
             }
-            break;
+            break
         case 3:
             if (posY != 0) {
                 posY--
@@ -294,7 +320,7 @@ function changePosition(value) {
                 drawtableflex()
                 showimage()
             }
-            break;
+            break
         case 4:
             if (posY != fieldsize - 1) {
                 posY++
@@ -302,34 +328,31 @@ function changePosition(value) {
                 drawtableflex()
                 showimage()
             }
-            break;
+            break
     }
 
 }
 
 function movezombie() {
-    let randommove = rndInt(0, 2) //Här kan man skapa en range för hur stor chans det är för zombien att röra sig
+    let randommove = rndInt(0, zombielevel)
     if (randommove === 0) {
 
         if (Math.abs(zomX - posX) > Math.abs(zomY - posY)) {
             if (zomX < posX) {
-                zomX++;
+                zomX++
             } else if (zomX > posX) {
-                zomX--;
+                zomX--
             }
         } else {
             if (zomY < posY) {
-                zomY++;
+                zomY++
             } else if (zomY > posY) {
-                zomY--;
+                zomY--
             }
         }
     }
 
 }
-
-
-
 
 
 function showimage() {
@@ -338,12 +361,9 @@ function showimage() {
     let image = document.getElementById("image")
     image.innerHTML = ""
 
-    let bigimage = document.createElement("img")
-    bigimage.src = images[rndNum].image
-    bigimage.setAttribute("class", "image")
-
-    let bigimagetext = document.createElement("p")
-    bigimagetext.innerHTML = images[rndNum].value
+    let backimage = document.createElement("img")
+    backimage.src = images[rndNum].image
+    backimage.setAttribute("class", "image")
 
     let catimage = document.createElement("img")
     catimage.src = "images/gustav.png"
@@ -353,7 +373,7 @@ function showimage() {
     zombieimage.src = "images/zombie.png"
     zombieimage.setAttribute("class", "zombieimage")
 
-    image.appendChild(bigimage)
+    image.appendChild(backimage)
     if (dead == true) {
         image.appendChild(zombieimage)
         printDead()
@@ -368,11 +388,10 @@ function showimage() {
         foundcat = false
         drawtableflex()
     }
-    // image.appendChild(bigimagetext)
 
 }
 
 function rndInt(min, max) {
-    return Math.floor(Math.random() * (max - min) + min);
+    return Math.floor(Math.random() * (max - min) + min)
 }
 
