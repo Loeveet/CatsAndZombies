@@ -156,8 +156,11 @@ input {
         display: flex;
         flex-direction: column;
     }
+    .button {
+        min-width: 100px;
+    }
+    .buttonsrow1, .buttonsrow2, .buttonsrow3{
+        height: 50px;
+    }
 
-    /* .right-container {
-        width: 40vw;
-    } */
 }
