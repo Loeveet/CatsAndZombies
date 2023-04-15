@@ -1,3 +1,5 @@
+//Att göra, justera så sidan passar till mobil också
+
 let fieldsize = localStorage.getItem("fieldsize")
 if (fieldsize === null) {
     fieldsize = 5
@@ -19,6 +21,7 @@ let dead = false
 
 let showCat = true
 let showZombie = true
+let difficultZombie = false
 
 const url = "https://api.chucknorris.io/jokes/random/"
 const theJoke = document.getElementById("joke")
@@ -79,26 +82,28 @@ function drawtableflex() {
     console.log("Zombie: " + zomX + " " + zomY)
     console.log("Counter: " + catcount)
     console.log("Zombielevel: " + zombielevel)
-    
+    console.log("svår zombie: " + difficultZombie)
+
+
     let flexboxfield = document.getElementById("flexboxfield")
     flexboxfield.innerHTML = ""
-    
-    
-    for (let i = 0; i < (fieldsize * fieldsize); i++) { 
+
+
+    for (let i = 0; i < (fieldsize * fieldsize); i++) {
         let square = document.createElement("div")
         square.setAttribute("class", "square")
         flexboxfield.appendChild(square)
     }
-    
+
     let squares = document.querySelectorAll(".square")
-    
+
     for (let i = 0; i < squares.length; i++) {
         let square = squares[i]
         square.style.flexBasis = (100 / fieldsize - 1) + "%"
-        
+
         let x = i % fieldsize;
         let y = Math.floor(i / fieldsize)
-        
+
         if (x === posX && y === posY) {
             square.innerHTML = "X"
         }
@@ -132,6 +137,7 @@ function changelevel(level) {
     zombielevel = (4 - level)
     localStorage.setItem("zombielevel", 4 - level)
     drawtableflex()
+    console.log("level: " + level)
 }
 
 function printRange() {
@@ -160,7 +166,7 @@ function printRange() {
     let zombielevelinput = document.createElement("input")
     zombielevelinput.setAttribute("type", "range")
     zombielevelinput.setAttribute("min", "0")
-    zombielevelinput.setAttribute("max", "4")
+    zombielevelinput.setAttribute("max", "3")
     zombielevelinput.setAttribute("value", 4 - zombielevel)
     zombielevelinput.setAttribute("oninput", "changelevel(this.value)")
     zombielevelinput.setAttribute("class", "zombielevelinput")
@@ -195,8 +201,25 @@ function printRange() {
         drawtableflex()
     })
 
+    let difficultZombieLabel = document.createElement("label")
+    difficultZombieLabel.innerText = "Svår Zombie: Av"
+    difficultZombieLabel.setAttribute("for", "difficultZombie")
+
+    let difficultZombieInput = document.createElement("input")
+    difficultZombieInput.setAttribute("type", "checkbox")
+    difficultZombieInput.setAttribute("id", "difficultZombie")
+    difficultZombieInput.setAttribute("checked", false)
+    difficultZombieInput.checked = false
+    difficultZombieInput.addEventListener("change", () => {
+        difficultZombie = difficultZombieInput.checked
+        difficultZombieLabel.innerText = "Svår Zombie: " + (difficultZombie ? "På" : "Av")
+        drawtableflex()
+    })
+
     optionDiv.appendChild(zombielevellabel)
     optionDiv.appendChild(zombielevelinput)
+    optionDiv.appendChild(difficultZombieLabel)
+    optionDiv.appendChild(difficultZombieInput)
     optionDiv.appendChild(toggleZombieLabel)
     optionDiv.appendChild(toggleZombieInput)
     optionDiv.appendChild(toggleCatLabel)
@@ -336,20 +359,39 @@ function changePosition(value) {
 function movezombie() {
     let randommove = rndInt(0, zombielevel)
     if (randommove === 0) {
+        if (!difficultZombie) {
 
-        if (Math.abs(zomX - posX) > Math.abs(zomY - posY)) {
+                //Enkel zombie
+            if (Math.abs(zomX - posX) > Math.abs(zomY - posY)) {
+                if (zomX < posX) {
+                    zomX++
+                } else if (zomX > posX) {
+                    zomX--
+                }
+            }
+            else {
+                if (zomY < posY) {
+                    zomY++
+                } else if (zomY > posY) {
+                    zomY--
+                }
+            }
+        }
+        else {
+
+            //Svår zombie
             if (zomX < posX) {
                 zomX++
             } else if (zomX > posX) {
                 zomX--
             }
-        } else {
             if (zomY < posY) {
                 zomY++
             } else if (zomY > posY) {
                 zomY--
             }
         }
+
     }
 
 }
