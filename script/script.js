@@ -102,7 +102,8 @@ function drawtableflex() {
         let square = squares[i]
         //Justerar rutorna på spelplanen beroende på skärmstorlek
         if (window.matchMedia('(max-width: 600px)').matches) {
-            square.style.flexBasis = (85 / fieldsize) + "%"
+            // square.style.flexBasis = (85 / fieldsize) + "%"
+            square.style.flexBasis = Math.floor(90 / fieldsize) + "%" // testar den här
             
         } else {
             // square.style.flexBasis = (100 / fieldsize - 1) + "%"
