@@ -23,6 +23,7 @@ let showCat = true
 let showZombie = true
 let difficultZombie = false
 
+
 const url = "https://api.chucknorris.io/jokes/random/"
 const theJoke = document.getElementById("joke")
 
@@ -99,7 +100,13 @@ function drawtableflex() {
 
     for (let i = 0; i < squares.length; i++) {
         let square = squares[i]
-        square.style.flexBasis = (100 / fieldsize - 1) + "%"
+        if (window.matchMedia('(max-width: 600px)').matches) {
+            square.style.flexBasis = (100 / fieldsize - 3) + "%"
+            
+        } else {
+            square.style.flexBasis = (100 / fieldsize - 1) + "%"
+            
+        }
 
         let x = i % fieldsize;
         let y = Math.floor(i / fieldsize)
@@ -153,7 +160,7 @@ function printRange() {
     let fieldrange = document.createElement("input")
     fieldrange.setAttribute("type", "range")
     fieldrange.setAttribute("min", "4")
-    fieldrange.setAttribute("max", "8")
+    fieldrange.setAttribute("max", "7")
     fieldrange.setAttribute("value", fieldsize)
     fieldrange.setAttribute("oninput", "changesize(this.value)")
     fieldrange.setAttribute("class", "fieldrange")

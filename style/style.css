@@ -150,3 +150,10 @@ input {
     text-align: center;
     font-weight: bold;
 }
+@media (max-width: 600px) {
+    /* Stilar för skärmar som är mindre än 600px breda */
+    .container {
+        display: flex;
+        flex-direction: column;
+    }
+}
