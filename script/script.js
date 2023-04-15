@@ -100,19 +100,29 @@ function drawtableflex() {
 
     for (let i = 0; i < squares.length; i++) {
         let square = squares[i]
+        //Justerar rutorna på spelplanen beroende på skärmstorlek
         if (window.matchMedia('(max-width: 600px)').matches) {
-            square.style.flexBasis = (100 / fieldsize - 3) + "%"
+            square.style.flexBasis = (85 / fieldsize) + "%"
             
         } else {
-            square.style.flexBasis = (100 / fieldsize - 1) + "%"
+            // square.style.flexBasis = (100 / fieldsize - 1) + "%"
+            square.style.flexBasis = (96 / fieldsize) + "%"
             
         }
-
+        
+        //ger varje ruta ett x-värde och ett y-värde
         let x = i % fieldsize;
         let y = Math.floor(i / fieldsize)
 
         if (x === posX && y === posY) {
             square.innerHTML = "X"
+        }
+
+        else if (x == zomX && y == zomY) {
+            if (showZombie) {
+                square.innerHTML = "Z"
+
+            }
         }
 
         else if (x == catX && y == catY) {
@@ -121,18 +131,15 @@ function drawtableflex() {
 
             }
         }
-        else if (x == zomX && y == zomY) {
-            if (showZombie) {
-                square.innerHTML = "Z"
 
-            }
-        }
-
+        //Kollar eventuella kollisioner. 
         posX == zomX && posY == zomY ? dead = true : dead = false
         posX == catX && posY == catY ? foundcat = true : foundcat = false
     }
 
 }
+
+
 
 function changesize(size) {
     fieldsize = size
@@ -174,7 +181,7 @@ function printOptions() {
     zombielevelinput.setAttribute("type", "range")
     zombielevelinput.setAttribute("min", "0")
     zombielevelinput.setAttribute("max", "3")
-    zombielevelinput.setAttribute("value", 4 - zombielevel)
+    zombielevelinput.setAttribute("value", 4 - zombielevel) //Tar 4 - för att göra rangen från 4 till 0 istället
     zombielevelinput.setAttribute("oninput", "changelevel(this.value)")
     zombielevelinput.setAttribute("class", "zombielevelinput")
 
