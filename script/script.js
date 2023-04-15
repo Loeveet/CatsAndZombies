@@ -19,7 +19,7 @@ if (zombielevel === null) {
 let foundcat = false
 let dead = false
 
-let showCat = true
+let showCat = false
 let showZombie = true
 let difficultZombie = false
 
@@ -69,7 +69,7 @@ fetch(url)
     })
 
 drawtableflex()
-printRange()
+printOptions()
 
 document.getElementById("buttonleft").addEventListener("click", function () { changePosition(1) })
 document.getElementById("buttonright").addEventListener("click", function () { changePosition(2) })
@@ -147,7 +147,7 @@ function changelevel(level) {
     console.log("level: " + level)
 }
 
-function printRange() {
+function printOptions() {
 
     let optionDiv = document.getElementById("option")
     optionDiv.innerHTML = ""
@@ -179,14 +179,14 @@ function printRange() {
     zombielevelinput.setAttribute("class", "zombielevelinput")
 
     let toggleCatLabel = document.createElement("label")
-    toggleCatLabel.innerText = "Visa Katt: På"
+    toggleCatLabel.innerText = "Visa Katt: Av"
     toggleCatLabel.setAttribute("for", "togglecat")
 
     let toggleCatInput = document.createElement("input")
     toggleCatInput.setAttribute("type", "checkbox")
     toggleCatInput.setAttribute("id", "togglecat")
-    toggleCatInput.setAttribute("checked", true)
-    toggleCatInput.checked = true
+    toggleCatInput.setAttribute("checked", false)
+    toggleCatInput.checked = false
     toggleCatInput.addEventListener("change", () => {
         showCat = toggleCatInput.checked
         toggleCatLabel.innerText = "Visa Katt: " + (showCat ? "På" : "Av")
